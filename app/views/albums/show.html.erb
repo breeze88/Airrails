@@ -1,0 +1,27 @@
+<p>Name: <%= @album.id %></p>
+
+<h2>Sophia Records:</h2>
+<% @songs.each do |song| %>
+  <%= link_to song.tooltip, song_path(song) %>
+<% end %>
+
+<h1>Album <%= @album.id %></h1>
+
+<p><strong>Name:</strong> <%= @album.report_name %></p>
+
+<p><strong>Latitude:</strong> <%= @album.latitude %></p>
+<p><strong>Longitude:</strong> <%= @album.longitude %></p>
+<p><strong>Score:</strong> <%= @spezi %></p>
+
+
+
+
+<% if !@album.gebraucht %>
+  <%= form_tag validate_album_url(@album), method: :post do %>
+    <%= text_field_tag :code %>
+    <%= submit_tag "Validate" %>
+  <% end %>
+<% end %>
+
+
+

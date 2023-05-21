@@ -1,0 +1,90 @@
+<%= form_tag songs_path, method: :get do %>
+    <div class="form-group">
+      <%= label_tag :song_id, "Filter by Song ID:" %>
+      <%= number_field_tag :song_id, params[:song_id], class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= label_tag :album_genre, "Filter by Album Genre:" %>
+      <%= select_tag :album_genre, options_for_select(@genres, params[:album_genre]), include_blank: true, class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= label_tag :album_artist, "Filter by Album Artist:" %>
+      <%= select_tag :album_artist, options_for_select(@artists, params[:album_artist]), include_blank: true, class: "form-control" %>
+    </div>
+    <%= submit_tag "Filter", class: "btn btn-primary" %>
+  <% end %>
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Duration</th>
+        <th>Album Title</th>
+        <th>Album Artist</th>
+        <th>Album Genre</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @songs_with_parent_album_info.each do |song| %>
+        <tr>
+          <td><%= song.id %></td>
+          <td><%= song.title %></td>
+          <td><%= song.duration %></td>
+          <td><%= song.album_title %></td>
+          <td><%= song.album_artist %></td>
+          <td><%= song.album_genre %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+
+
+
+  ------------------------------------------------------------------------------
+
+
+
+  <div class="form-group">
+  <%= label_tag(:album_status, 'Album Status:') %>
+  <%= select_tag(:album_status, options_for_select(@album_status.map {|a| [a.status, a.status}, params[:album_status]), { prompt: 'Select album status', class: 'form-control' }) %>
+</div>
+
+
+
+<div class="form-group">
+<%= label_tag(:album_report_name, 'Tag Name:') %>
+<%= select_tag(:album_report_name, options_for_select(@album_report_name.map {|a| [a.report_name, a.report_name]}, params[:album_report_name]), { prompt: 'Select tag name', class: 'form-control' }) %>
+</div>
+
+
+
+
+------------------------------------------------------------------------------
+this one is working without page refresh:
+
+<%= form_tag(songs_path, method: 'get') do %>
+    <div class="form-group">
+      <%= label_tag(:song_report_id, 'Report ID:') %>
+      <%= text_field_tag(:song_report_id, params[:song_report_id], class: 'form-control', placeholder: 'Enter Report ID') %>
+    </div>
+  
+    <%= submit_tag('Filter', class: 'btn btn-primary') %>
+  <% end %>
+  ------------------------------------------------------------------------------
+
+  <%= form_tag songs_path, method: :get do %>
+    <div>
+      <%= label_tag :song_report_id, "Search by Report ID:" %>
+      <%= text_field_tag :song_report_id, params[:song_report_id], class: 'form-control', placeholder: 'Enter Report ID %>
+    </div>
+  
+
+    ----------------------
+
+
+    <div id="songs_with_parent_album_info">
+    <%= render partial: 'songs/songs_with_parent_album_info', collection: @songs_with_parent_album_info %>
+    </div>
+  

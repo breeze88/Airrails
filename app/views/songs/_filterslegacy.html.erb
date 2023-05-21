@@ -1,0 +1,26 @@
+
+
+
+
+<div id="filters">
+  <%= form_with url: songs_path, method: :get, id: 'filter-form', data: { controller: 'filter', action: 'filter' } do |form| %>
+    <%= form.label :album_statusp %>
+    <%= form.select :album_statusp, options_for_select(@albums_statuspes, @selected_album_statusp), include_blank: true, data: { action: 'change->filter#filter' } %>
+    <%= form.label :song_id %>
+    <%= form.text_field :song_id, value: @selected_song_id, data: { action: 'input->filter#filter' } %>
+
+    <%= form.submit "Filter" %>
+  <% end %>
+</div>
+
+
+<div class="filter">
+  <%= form_tag songs_path, method: :get, remote: true do %>
+    <%= text_field_tag :song_id, params[:song_id], placeholder: 'Enter Song ID' %>
+    <%= select_tag :album_statusp, options_for_select(Album.statuspes.map { |statusp, _value| [Album.("status.#{status}"), status] }, params[:album_status]), include_blank: true %>
+    <%= submit_tag 'Filter', class: 'btn btn-primary' %>
+  <% end %>
+</div>
+
+
+

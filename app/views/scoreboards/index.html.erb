@@ -1,0 +1,106 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <%= link_to "Four Apes", root_path, class: "navbar-brand" %>
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <% if user_signed_in? %>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+      <%= link_to "Mining report", songs_path, class: "nav-link" %>
+    </li>
+  </ul>
+  
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <%= link_to "Airdrips", scoreboards_path, class: "nav-link" %>
+        </li>
+      </ul>
+  
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <%= link_to "Network activity", networks_path, class: "nav-link" %>
+        </li>
+      </ul>
+    </div>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <%= link_to 'Edit profile', edit_user_registration_path, class: "nav-link" %> 
+        </li>
+
+        <li class="nav-item">
+          <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "nav-link" %>
+        </li>
+      </ul>
+    </div>
+  <% else %>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <%= link_to "Sign in", new_user_session_path, class: "nav-link" %>
+        </li>
+      </ul>
+    </div>
+  <% end %>
+</nav>
+
+
+
+<br></br>
+
+<h1>Airdrips</h1>
+
+
+
+<p>Sum of my airdrips: <%= @sum_of_album_scores %></p>
+
+
+
+
+
+  <table class="table">
+  <thead>
+    <tr>
+    <th>Airdrip ID</th>
+    <th>Distance to Ground Zero (in meters)	</th>
+    <th>Longitude</th>
+    <th>Latitude</th>
+
+    <th>Time </th>
+    <th>Score </th>
+
+
+    </tr>
+  </thead>
+  <tbody>
+    <% @apsongs.each do |song| %>
+      <tr>
+      <td><%= song[:report_id] %></td> 
+      <td><%= number_with_precision(song[:metersfromgroundzero], precision: 2) %></td>
+
+      <td><%= song[:longitude] %></td>
+      <td><%= song[:latitude] %></td>
+
+      <td><%= song[:created_at] %></td>
+      <td><%= song[:album_score] %></td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+
+

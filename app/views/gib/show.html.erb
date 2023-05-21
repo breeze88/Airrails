@@ -1,0 +1,76 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <%= link_to "Four Apes", root_path, class: "navbar-brand" %>
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <% if user_signed_in? %>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+      <%= link_to "Mining report", songs_path, class: "nav-link" %>
+    </li>
+  </ul>
+  
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <%= link_to "Airdrips", scoreboards_path, class: "nav-link" %>
+        </li>
+      </ul>
+  
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <%= link_to "Network activity", networks_path, class: "nav-link" %>
+        </li>
+      </ul>
+    </div>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <%= link_to 'Edit profile', edit_user_registration_path, class: "nav-link" %> 
+        </li>
+
+        <li class="nav-item">
+          <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "nav-link" %>
+        </li>
+      </ul>
+    </div>
+  <% else %>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <%= link_to "Sign in", new_user_session_path, class: "nav-link" %>
+        </li>
+      </ul>
+    </div>
+  <% end %>
+</nav>
+
+
+
+<br></br>
+
+
+<h1>Registration of an Airdrip</h1>
+
+<p><strong>Name:</strong> <%= @album.report_name %></p>
+
+<p><strong>Latitude:</strong> <%= @album.latitude %></p>
+<p><strong>Longitude:</strong> <%= @album.longitude %></p>
+
+<% if !@album.gebraucht %>
+  <%= form_tag validate_album_url(@album), method: :post do %>
+    <%= text_field_tag :code %>
+    <%= submit_tag "Validate" %>
+  <% end %>
+<% end %>
+

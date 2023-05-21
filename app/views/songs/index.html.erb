@@ -1,0 +1,88 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <%= link_to "Four Apes", root_path, class: "navbar-brand" %>
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <% if user_signed_in? %>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+      <%= link_to "Mining report", songs_path, class: "nav-link" %>
+    </li>
+  </ul>
+  
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <%= link_to "Airdrips", scoreboards_path, class: "nav-link" %>
+        </li>
+      </ul>
+  
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <%= link_to "Network activity", networks_path, class: "nav-link" %>
+        </li>
+      </ul>
+    </div>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <%= link_to 'Edit profile', edit_user_registration_path, class: "nav-link" %> 
+        </li>
+
+        <li class="nav-item">
+          <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "nav-link" %>
+        </li>
+      </ul>
+    </div>
+  <% else %>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <%= link_to "Sign in", new_user_session_path, class: "nav-link" %>
+        </li>
+      </ul>
+    </div>
+  <% end %>
+</nav>
+
+<br></br>
+
+
+
+
+  <div data-controller="filters">
+  <%= render partial: 'filters', locals: { songs_with_parent_album_info: @songs_with_parent_album_info } %>
+</div>
+
+
+
+  <div id="songs_with_parent_album_info">
+  <%= render partial: 'songs/songs_with_parent_album_info' %>
+  </div>
+
+<script>
+  $(document).on('submit', 'form', function(event) {
+    event.preventDefault();
+    
+    var url = $(this).attr('action');
+    var data = $(this).serialize();
+    
+    $.get(url, data, function(response) {
+      $('#songs').html(response);
+    });
+  });
+  
+  $('.chosen').chosen();
+</script>
+
+

@@ -1,0 +1,13 @@
+
+
+
+<%= form_with url: songs_path, method: :get, data: { controller: "filters", filters_target: "form", turbo_frame: "table" } do |form| %>
+    <%= form.label :song_id %>
+    <%= form.text_field :song_id, class: "form-control", placeholder: "Enter Tag id" %>
+  
+    <%= form.label :album_statusp %>
+    <%= form.select :album_statusp, options_for_select(@album_statuspes.map { |a| [a.statusp, a.statusp] }), { include_blank: true }, { class: "form-control" } %>
+  
+    <%= form.submit "Filter", class: "btn btn-primary" %>
+<% end %>
+

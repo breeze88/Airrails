@@ -1,0 +1,74 @@
+<%= form_tag(songs_path, method: 'get') do %>
+    <div class="form-group">
+      <%= label_tag(:song_report_id, 'Report ID:') %>
+      <%= text_field_tag(:song_report_id, params[:song_report_id], class: 'form-control', placeholder: 'Enter Report ID') %>
+    </div>
+    <%= submit_tag('Filter', class: 'btn btn-primary') %>
+  <% end %>
+  
+
+
+
+
+
+
+
+
+<%= form_tag(songs_path, method: :get, id: "filter-form") do %>
+    <div class="form-group">
+      <%= label_tag(:song_report_id, "Report ID:") %>
+      <%= text_field_tag(:song_report_id, params[:song_report_id], data: { controller: "songs", action: "change->songs#filter" }, autocomplete: "off", class: "form-control", id: "songs_id_input", placeholder: "Enter Song ID") %>
+    </div>
+    <div>
+      <%= label_tag(:album_statusp, "Tag Status:") %>
+      <%= select_tag(:album_statusp, options_for_select(@statusp, params[:album_statusp]), data: { controller: "songs", action: "change->songs#filter" }, class: "form-control", id: "album_statusp_select", prompt: "Status") %>
+    </div>
+    <div>
+      <%= label_tag(:album_report_name, "Tag Name:") %>
+      <%= select_tag(:album_report_name, options_for_select(@report_name, params[:album_report_name]), data: { controller: "songs", action: "change->songs#filter" }, class: "form-control", id: "album_report_name_select", prompt: "Tag Namen") %>
+    </div>
+    <div class="mt-3">
+      <%= submit_tag("Filter", class: "btn btn-primary") %>
+    </div>
+  <% end %>
+  
+  
+  --------------------------------------------
+
+
+
+
+<div class="filters">
+<%= form_with url: songs_path, method: :get, data: { controller: "songs", action: "change->songs#filter" } do |f| %>
+  <div class="form-group">
+    <%= f.label :song_report_id, "Report ID:" %>
+    <%= f.text_field :song_report_id, class: "form-control", data: { songs_target: "filter" } %>
+  </div>
+  <div class="form-group">
+    <%= f.label :album_statusp, "Tag Status:" %>
+    <%= f.select :album_statusp, Album.distinct.pluck(:statusp), {}, { class: "form-control", data: { songs_target: "filter" } } %>
+  </div>
+  <div class="form-group">
+    <%= f.label :album_report_name, "Tag Name:" %>
+    <%= f.select :album_report_name, Album.distinct.pluck(:report_name), {}, { class: "form-control", data: { songs_target: "filter" } } %>
+  </div>
+  <%= f.submit "Filter", class: "btn btn-primary", style: "margin-top: 10px;" %>
+<% end %>
+</div>
+
+<div class="song-list" data-songs-target="list">
+<%= render partial: "songs_list", locals: { songs_with_parent_album_info: @songs_with_parent_album_info } %>
+</div>
+
+
+-------------------------------------
+
+last one:
+
+<div data-controller="filters">
+  <%= render partial: 'filters', locals: { songs_with_parent_album_info: @songs_with_parent_album_info } %>
+</div>
+
+<div data-turbo-frame="table">
+  <%= render partial: 'list', locals: { songs_with_parent_album_info: @songs_with_parent_album_info } %>
+</div>

@@ -1,0 +1,26 @@
+
+
+
+
+<div id="filters">
+  <%= form_with url: songs_path, method: :get, id: 'filter-form', data: { controller: 'filter', action: 'filter' } do |form| %>
+   
+   
+   
+
+
+    <%= label_tag :album_category, "Airdrip mining status: " %>
+    <%= select_tag 'album_category', options_for_select(Album.human_status_options, params[:album_category]), include_blank: true, class: 'chosen-select' %>
+
+
+
+    <%= form.label :album_report_id, "Airdrip id: "  %>
+    <%= form.text_field :album_report_id, value: @selected_album_report_id, data: { action: 'input->filter#filter' } %>
+
+    <%= form.submit "Search" , class: 'btn btn-primary'%>
+  <% end %>
+</div>
+
+
+
+
